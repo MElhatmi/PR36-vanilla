@@ -77,22 +77,35 @@ header {
   height: 100vh;
   padding-inline: 32px;
 }
+
 header,
 footer {
   background-color: #252525;
 }
-header div,
-section {
+header div {
   max-width: 385px;
+  margin: 0 auto;
+}
+section {
+  max-width: 856px;
   margin: 0 auto;
 }
 header img {
   margin-block: 169px 64px;
 }
+@media (min-width: 768px) {
+  header {
+    display: flex;
+    align-items: center;
+    transform: translateY(-40px);
+  }
+  header img {
+    margin-top: 0;
+  }
+}
 main {
   background-color: #313131;
   padding-inline: 23px;
-
   padding-block: 63px 126px;
 }
 img {
