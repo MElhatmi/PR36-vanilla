@@ -37,7 +37,17 @@
   font-display: swap;
 }
 
-* {
+main,
+header,
+footer,
+section,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -52,20 +62,6 @@ body {
   font-family: "Poppins", sans-serif;
   background-color: #252525;
   color: #fff;
-}
-
-/* Global text styles */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin: 0;
-}
-
-p {
-  margin: 0;
 }
 
 header {
@@ -102,8 +98,13 @@ button {
   font-weight: 500;
   line-height: 1.5;
   padding-block: 6.5px;
+  cursor: pointer;
+  transition: all 0.4s ease; /* Smooth transition for the hover effect */
 }
-
+button:hover {
+  background-color: #fff; /* Change background color */
+  color: #252525; /* Change text color */
+}
 h2 {
   line-height: 1.5;
   font-weight: 600;
