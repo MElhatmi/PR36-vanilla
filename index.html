@@ -301,4 +301,20 @@
       <p>connect@pr36.com</p>
     </footer>
   </body>
+  <script>
+window.addEventListener("scroll", function () {
+  const scrollPosition = window.scrollY;
+  const header = document.querySelector("header");
+
+  // Parallax effect
+  header.style.transform = `translateY(-${scrollPosition * 0.5}px)`;
+
+  // Gradual fading effect
+  const maxScroll = window.innerHeight * 0.9;
+  const opacity = 1 - scrollPosition / maxScroll;
+  header.style.opacity = opacity > 0 ? opacity : 0;
+});
+
+
+  </script>
 </html>
