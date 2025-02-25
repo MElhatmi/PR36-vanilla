@@ -94,18 +94,18 @@ section {
   margin: 0 auto;
 }
 header img {
-  margin-block: 169px 64px;
+  margin-block: 0 64px;
 }
-@media (min-width: 768px) {
-  header {
-    display: flex;
-    align-items: center;
-    transform: translateY(-40px);
-  }
-  header img {
-    margin-top: 0;
-  }
+
+header {
+  display: flex;
+  align-items: center;
+  transform: translateY(-40px);
 }
+header img {
+  margin-top: 0;
+}
+
 main {
   background-color: #313131;
   padding-inline: 23px;
