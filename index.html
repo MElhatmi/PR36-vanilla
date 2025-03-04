@@ -47,10 +47,10 @@
             height="394.34"
             alt="PR 36"
           />
-          <button>Learn more</button>
+          <button id="learn-more-btn">Learn more</button>
         </div>
       </header>
-      <main>
+      <main id="main-section">
         <section>
           <h2>Welcome to PR36</h2>
           <p>
@@ -315,6 +315,13 @@ window.addEventListener("scroll", function () {
   header.style.opacity = opacity > 0 ? opacity : 0;
 });
 
+document
+        .getElementById("learn-more-btn")
+        .addEventListener("click", function () {
+          document
+            .getElementById("main-section")
+            .scrollIntoView({ behavior: "smooth" });
+        });
 
   </script>
 </html>
