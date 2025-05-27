@@ -48,6 +48,7 @@
             alt="PR 36"
           />
           <button id="learn-more-btn">Learn more</button>
+          <button class="send-btn" id="get-in-touch-btn">Get in Touch</button>
         </div>
       </header>
       <main id="main-section">
@@ -294,34 +295,72 @@
             <br />
             <h3>🚀 PR36: Where the Bold Come to Build.</h3>
         </section>
+          <form class="form-container">
+            <h2 class="form-header font-weight-semibold">Contact Us</h2>
+            <p class="form-paragraph">Please provide your details, and we'll reach out to you shortly.</p>
+            <div class="form-row">
+              <div class="form-group">
+                <div class="icon-container">
+                  <img src="images/icons/user.svg" alt="user icon" class="form-icon" width="12.68" height="15.25" />
+                </div>
+                <label for="firstName" class="visually-hidden">First Name</label>
+                <input type="text" id="firstName" placeholder="First Name" name="firstName" required pattern="[A-Za-z\s\-]+" aria-label="First Name" />
+              </div>
+              <div class="form-group">
+                <div class="icon-container">
+                  <img src="images/icons/user.svg" alt="user icon" class="form-icon" width="12.68" height="15.25" />
+                </div>
+                <label for="lastName" class="visually-hidden">Last Name</label>
+                <input type="text" id="lastName" placeholder="Last Name" name="lastName" required pattern="[A-Za-z\s\-]+" aria-label="Last Name" />
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="icon-container">
+                <img src="images/icons/email.svg" alt="email icon" class="form-icon" width="19.54" height="16.81" />
+              </div>
+              <label for="email" class="visually-hidden">Email</label>
+              <input type="email" id="email" placeholder="Email" name="email" required aria-label="Email" />
+            </div>
+            <div class="form-group">
+              <div class="icon-container">
+                <img src="images/icons/phone.svg" alt="phone icon" class="form-icon" width="16.65" height="16.65" />
+              </div>
+              <label for="phone" class="visually-hidden">Phone Number</label>
+              <input type="tel" id="phone" placeholder="Phone Number" name="phone" required pattern="^[0-9+\s()-]+$" aria-label="Phone Number" />
+            </div>
+            <div class="form-group">
+              <div class="icon-container">
+                <img src="images/icons/business.svg" alt="business icon" class="form-icon" width="16.65" height="16.07" />
+              </div>
+              <input type="text" placeholder="Business Name" name="business" required />
+            </div>
+            <div class="form-group">
+              <div class="icon-container">
+                <img src="images/icons/linked-in.svg" alt="linked-in icon" class="form-icon" width="19.96" height="11.98" />
+              </div>
+              <input type="text" placeholder="Linked In" name="linkedIn" required />
+            </div>
+            <div class="form-group file-upload-group">
+              <div class="icon-container">
+                <img src="images/icons/business.svg" alt="document icon" class="form-icon" width="16" height="16" />
+              </div>
+              <span class="upload-label">Upload Documents</span>
+              <input type="file" id="upload-input" name="documents" style="display:none;" accept=".pdf,.doc,.docx" aria-label="Upload Documents" />
+              <button type="button" class="upload-btn">
+                <img src="images/icons/upload-icon.svg" alt="upload icon" width="13" height="17.87" />
+              </button>
+            </div>
+            <div id="uploaded-files"></div>
+            <button type="submit" class="send-btn">Send</button>
+          </form>
       </main>
+   
     </div>
+
     <footer>
       <p>© 2025 PR36. All rights reserved.</p>
       <p>connect@pr36.co</p>
     </footer>
   </body>
-  <script>
-window.addEventListener("scroll", function () {
-  const scrollPosition = window.scrollY;
-  const header = document.querySelector("header");
-
-  // Parallax effect
-  header.style.transform = `translateY(-${scrollPosition * 0.5}px)`;
-
-  // Gradual fading effect
-  const maxScroll = window.innerHeight * 0.9;
-  const opacity = 1 - scrollPosition / maxScroll;
-  header.style.opacity = opacity > 0 ? opacity : 0;
-});
-
-document
-        .getElementById("learn-more-btn")
-        .addEventListener("click", function () {
-          document
-            .getElementById("main-section")
-            .scrollIntoView({ behavior: "smooth" });
-        });
-
-  </script>
+  <script src="script.js"></script>
 </html>
