@@ -55,7 +55,7 @@ function renderUploadedFiles() {
 
     const removeBtn = document.createElement("button");
     removeBtn.className = "remove-file-btn";
-    removeBtn.innerHTML = `<img src="images/icons/close.svg" alt="Remove" />`;
+    removeBtn.innerHTML = `<img src="images/icons/close.svg" alt="Remove" width="8.51" height="8.51" />`;
     removeBtn.onclick = () => {
       uploadedFiles.splice(idx, 1);
       renderUploadedFiles();
@@ -76,97 +76,130 @@ if (getInTouchBtn && formSection) {
   });
 }
 
-// Helper to show error message
-function showError(input, message) {
-  let error = input.parentElement.querySelector(".error-message");
-  if (!error) {
-    error = document.createElement("div");
-    error.className = "error-message";
-    input.parentElement.appendChild(error);
-  }
-  error.textContent = message;
-  input.classList.add("input-error");
+// Helper to show error
+function showError(input) {
+  const container = input.classList.contains("form-group")
+    ? input
+    : input.parentElement;
+  container.classList.add("input-error");
 }
+
 function clearError(input) {
-  let error = input.parentElement.querySelector(".error-message");
-  if (error) error.textContent = "";
-  input.classList.remove("input-error");
+  if (!input) return;
+  const container = input.classList.contains("form-group")
+    ? input
+    : input.parentElement;
+  container.classList.remove("input-error");
 }
 
 // Validate form fields
 function validateForm(form) {
   let valid = true;
-  // Name fields
+  const inputs = form.querySelectorAll('input:not([type="file"])');
+
+  // Clear all previous errors first
+  inputs.forEach((input) => clearError(input));
+  clearError(document.querySelector(".file-upload-group"));
+
+  // Check minimum length for all text inputs
+  inputs.forEach((input) => {
+    if (input.value.trim().length < 3 && input.type !== "file") {
+      showError(input);
+      valid = false;
+    }
+  });
+
+  // Name fields - letters only
   const namePattern = /^[A-Za-z\s\-]+$/;
   ["firstName", "lastName"].forEach((name) => {
     const input = form.querySelector(`[name="${name}"]`);
-    if (input) {
-      clearError(input);
+    if (input && input.value.trim()) {
       if (!namePattern.test(input.value.trim())) {
-        showError(input, "Only letters, spaces, and hyphens allowed.");
+        showError(input);
         valid = false;
       }
     }
   });
-  // Email
+
+  // Email validation
   const emailInput = form.querySelector('input[name="email"]');
-  clearError(emailInput);
-  const emailValue = emailInput.value.trim();
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailPattern.test(emailValue)) {
-    showError(emailInput, "Please enter a valid email address.");
-    valid = false;
-  }
-  // Phone
-  const phoneInput = form.querySelector('input[name="phone"]');
-  clearError(phoneInput);
-  const phonePattern = /^[0-9+\s()-]+$/;
-  if (!phonePattern.test(phoneInput.value.trim())) {
-    showError(
-      phoneInput,
-      "Only numbers, spaces, dashes, parentheses, and + allowed."
-    );
-    valid = false;
-  }
-  // File size (max 5MB)
-  const fileInput = form.querySelector('input[type="file"]');
-  clearError(fileInput);
-  if (fileInput && fileInput.files.length > 0) {
-    for (const file of fileInput.files) {
-      if (file.size > 5 * 1024 * 1024) {
-        showError(fileInput, "File size must be less than 5MB.");
-        valid = false;
-        break;
-      }
+  if (emailInput && emailInput.value.trim()) {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(emailInput.value.trim())) {
+      showError(emailInput);
+      valid = false;
     }
   }
+
+  // Phone - numbers only
+  const phoneInput = form.querySelector('input[name="phone"]');
+  if (phoneInput && phoneInput.value.trim()) {
+    const phonePattern = /^\d+$/;
+    if (!phonePattern.test(phoneInput.value.trim())) {
+      showError(phoneInput);
+      valid = false;
+    }
+  }
+
+  // Check if files are uploaded
+  if (uploadedFiles.length === 0) {
+    showError(document.querySelector(".file-upload-group"));
+    valid = false;
+  }
+
   return valid;
 }
 
-// Disable submit if invalid
+// Form submission and validation
 const form = document.querySelector(".form-container");
-const sendBtn = form ? form.querySelector('.send-btn[type="submit"]') : null;
-if (form && sendBtn) {
-  form.addEventListener("input", function () {
-    sendBtn.disabled = !form.checkValidity();
+if (form) {
+  // Add input event listeners for real-time validation
+  const inputs = form.querySelectorAll('input:not([type="file"])');
+  inputs.forEach((input) => {
+    input.addEventListener("input", () => {
+      clearError(input);
+
+      // Validate minimum length
+      if (input.value.trim().length < 3) {
+        showError(input);
+        return;
+      }
+
+      // Validate specific fields
+      switch (input.name) {
+        case "firstName":
+        case "lastName":
+          if (!/^[A-Za-z\s\-]+$/.test(input.value.trim())) {
+            showError(input);
+          }
+          break;
+        case "email":
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim())) {
+            showError(input);
+          }
+          break;
+        case "phone":
+          if (!/^\d+$/.test(input.value.trim())) {
+            showError(input);
+          }
+          break;
+      }
+    });
   });
+
   form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
     // Remove previous errors
     form
       .querySelectorAll(".input-error")
       .forEach((i) => i.classList.remove("input-error"));
-    form
-      .querySelectorAll(".error-message")
-      .forEach((e) => (e.textContent = ""));
+
     if (!validateForm(form)) {
-      e.preventDefault();
-      sendBtn.disabled = true;
       return;
     }
-    // Prevent multiple submissions
-    sendBtn.disabled = true;
-    // Show success feedback
-    e.preventDefault();
+
+    // If validation passes, show success message
     const success = document.createElement("div");
     success.textContent = "Form submitted successfully!";
     success.style.color = "#4caf50";
@@ -174,6 +207,5 @@ if (form && sendBtn) {
     success.style.marginTop = "16px";
     form.appendChild(success);
     setTimeout(() => success.remove(), 3000);
-    setTimeout(() => (sendBtn.disabled = false), 3000);
   });
 }
