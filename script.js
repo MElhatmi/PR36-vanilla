@@ -55,7 +55,7 @@ function renderUploadedFiles() {
 
     const removeBtn = document.createElement("button");
     removeBtn.className = "remove-file-btn";
-    removeBtn.innerHTML = `<img src="images/icons/close.svg" alt="Remove" width="8.51" height="8.51" />`;
+    removeBtn.innerHTML = `<img src="images/icons/removeIcon.svg" alt="Remove" width="29" height="29" />`;
     removeBtn.onclick = () => {
       uploadedFiles.splice(idx, 1);
       renderUploadedFiles();
